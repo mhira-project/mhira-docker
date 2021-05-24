@@ -1,0 +1,76 @@
+###########################################################
+# General Setup
+###########################################################
+
+### Application Path ###################################################################################################
+# Point to your code, will be available at `/var/www`.
+
+APPLICATION=../
+
+### Data Path ##########################################################################################################
+# Choose storage path on your machine. For all storage systems.
+
+DATA_SAVE_PATH=~/.mhira-docker/data
+
+### Docker compose files ###############################################################################################
+# Select which docker-compose files to include.
+# If using docker-sync. Set the value to: docker-compose.yml:docker-compose.dev.yml:docker-compose.sync.yml
+# Change the separator from : to ; on Windows
+
+COMPOSE_PATH_SEPARATOR=:
+COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
+
+### Docker Host IP #####################################################################################################
+# Enter your Docker Host IP (will be appended to /etc/hosts). Default is `10.0.75.1`
+
+DOCKER_HOST_IP=10.0.75.1
+
+### Windows Path #######################################################################################################
+# A fix for Windows users, to ensure the application path works.
+
+COMPOSE_CONVERT_WINDOWS_PATHS=1
+
+### Environment ########################################################################################################
+# If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
+
+CHANGE_SOURCE=false
+
+########################################################################################################################
+
+###########################################################
+# Containers Customization
+###########################################################
+
+### NGINX ##############################################################################################################
+
+NGINX_HOST_HTTP_PORT=80
+NGINX_HOST_HTTPS_PORT=443
+NGINX_HOST_LOG_PATH=./logs/nginx/
+NGINX_SITES_PATH=./nginx/sites/
+NGINX_PHP_UPSTREAM_CONTAINER=php-fpm
+NGINX_PHP_UPSTREAM_PORT=9000
+
+### REDIS ##############################################################################################################
+
+REDIS_PORT=6379
+
+### POSTGRES ###########################################################################################################
+
+POSTGRES_DB=default
+POSTGRES_USER=default
+POSTGRES_PASSWORD=secret
+POSTGRES_PORT=5432
+
+### MONGODB ############################################################################################################
+
+MONGODB_PORT=27017
+
+### DOCKER-SYNC ################################################################################################
+
+# osx: 'native_osx' (default)
+# windows: 'unison'
+# linux: docker-sync not required
+
+DOCKER_SYNC_STRATEGY=native_osx
+
+########################################################################################################################
