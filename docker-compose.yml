@@ -35,6 +35,7 @@ services:
     ports:
       - "${MHIRA_BACKEND_PORT}:3000"
     environment:
+      - SECRET=${JWT_SECRET}
       - TYPEORM_CONNECTION=postgres
       - TYPEORM_HOST=${POSTGRES_HOST}
       - TYPEORM_USERNAME=${POSTGRES_USER}
