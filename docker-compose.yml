@@ -35,21 +35,21 @@ services:
     ports:
       - "${MHIRA_BACKEND_PORT}:3000"
     environment:
-      - TYPEORM_CONNECTION = postgres
-      - TYPEORM_HOST = ${POSTGRES_HOST}
-      - TYPEORM_USERNAME = ${POSTGRES_USER}
-      - TYPEORM_DATABASE = ${POSTGRES_DB}
-      - TYPEORM_PASSWORD = ${POSTGRES_PASSWORD}
-      - TYPEORM_PORT = ${POSTGRES_PORT}
-      - TYPEORM_SYNCHRONIZE = true
-      - TYPEORM_LOGGING = true
-      - TYPEORM_ENTITIES_DIR = /../**/*.model.{js,ts}
-      - TYPEORM_MIGRATIONS_TABLE_NAME = migrations
-      - TYPEORM_MIGRATIONS = migration/*.js
-      - TYPEORM_MIGRATIONS_DIR = src/migrations
+      - TYPEORM_CONNECTION=postgres
+      - TYPEORM_HOST=${POSTGRES_HOST}
+      - TYPEORM_USERNAME=${POSTGRES_USER}
+      - TYPEORM_DATABASE=${POSTGRES_DB}
+      - TYPEORM_PASSWORD=${POSTGRES_PASSWORD}
+      - TYPEORM_PORT=${POSTGRES_PORT}
+      - TYPEORM_SYNCHRONIZE=true
+      - TYPEORM_LOGGING=true
+      - TYPEORM_ENTITIES_DIR=/../**/*.model.{js,ts}
+      - TYPEORM_MIGRATIONS_TABLE_NAME=migrations
+      - TYPEORM_MIGRATIONS=migration/*.js
+      - TYPEORM_MIGRATIONS_DIR=src/migrations
       - CACHE_STORE=redis
       - REDIS_HOST=redis
-      - MONGODB_CONNECTION_STRING = ${MONGODB_CONNECTION_STRING}
+      - MONGODB_CONNECTION_STRING=${MONGODB_CONNECTION_STRING}
     tty: true
     networks:
       - frontend
