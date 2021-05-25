@@ -61,6 +61,7 @@ REDIS_PORT=6379
 
 ### POSTGRES ###########################################################################################################
 
+POSTGRES_HOST=postgres
 POSTGRES_DB=default
 POSTGRES_USER=default
 POSTGRES_PASSWORD=secret
@@ -69,6 +70,7 @@ POSTGRES_PORT=5432
 ### MONGODB ############################################################################################################
 
 MONGODB_PORT=27017
+MONGODB_CONNECTION_STRING=mongodb://localhost:27017/questionnaireDB
 
 ### DOCKER-SYNC ################################################################################################
 
