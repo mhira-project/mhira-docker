@@ -1,19 +1,10 @@
-version: "2"
+version: "3.8"
 
 services:
-  ### Applications Code Container #############################
-
-  applications:
-    image: tianon/true
-
   ### MHIRA Frontend Container ###########################
 
   mhira-frontend:
-    image: 902704829193.dkr.ecr.af-south-1.amazonaws.com/mhira-dev-frontend:development
-    # build:
-    #   context: ./mhira-frontend
-    volumes_from:
-      - applications
+    image: ${REGISTRY_HOST}/mhira-frontend:development
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
     ports:
@@ -25,11 +16,7 @@ services:
   ### MHIRA Backend Container ###########################
 
   mhira-backend:
-    image: 902704829193.dkr.ecr.af-south-1.amazonaws.com/mhira-dev-backend:development
-    # build:
-    #   context: ./mhira-backend
-    volumes_from:
-      - applications
+    image: ${REGISTRY_HOST}/mhira-backend:development
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
     ports:
@@ -66,8 +53,6 @@ services:
   nginx:
     build:
       context: ./nginx
-    volumes_from:
-      - applications
     volumes:
       - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
       - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
@@ -134,6 +119,4 @@ volumes:
   redis:
     driver: "local"
   mongo:
-    driver: "local"
-  minio:
     driver: "local"

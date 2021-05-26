@@ -2,11 +2,6 @@
 # General Setup
 ###########################################################
 
-### Application Path ###################################################################################################
-# Point to your code, will be available at `/var/www`.
-
-APPLICATION=../
-
 ### Data Path ##########################################################################################################
 # Choose storage path on your machine. For all storage systems.
 
@@ -25,16 +20,6 @@ COMPOSE_FILE=docker-compose.yml:docker-compose.dev.yml
 
 DOCKER_HOST_IP=10.0.75.1
 
-### Windows Path #######################################################################################################
-# A fix for Windows users, to ensure the application path works.
-
-COMPOSE_CONVERT_WINDOWS_PATHS=1
-
-### Environment ########################################################################################################
-# If you're in China, or you need to change sources, will be set CHANGE_SOURCE to true in .env.
-
-CHANGE_SOURCE=false
-
 ########################################################################################################################
 
 ###########################################################
@@ -42,6 +27,9 @@ CHANGE_SOURCE=false
 ###########################################################
 
 ### MHIRA ##############################################################################################################
+
+# Docker Registry container MHIRA images
+REGISTRY_HOST=902704829193.dkr.ecr.af-south-1.amazonaws.com
 
 MHIRA_FRONTEND_PORT=8080
 MHIRA_BACKEND_PORT=8090
@@ -68,14 +56,6 @@ POSTGRES_PORT=5432
 ### MONGODB ############################################################################################################
 
 MONGODB_PORT=27017
-MONGODB_CONNECTION_STRING=mongodb://localhost:27017/questionnaireDB
-
-### DOCKER-SYNC ################################################################################################
-
-# osx: 'native_osx' (default)
-# windows: 'unison'
-# linux: docker-sync not required
-
-DOCKER_SYNC_STRATEGY=native_osx
+MONGODB_CONNECTION_STRING=mongodb://mongo:27017/questionnaireDB
 
 ########################################################################################################################
