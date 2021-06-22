@@ -29,10 +29,14 @@ DOCKER_HOST_IP=10.0.75.1
 ### MHIRA ##############################################################################################################
 
 # Docker Registry container MHIRA images
-REGISTRY_HOST=902704829193.dkr.ecr.af-south-1.amazonaws.com
+REGISTRY_HOST=public.ecr.aws/a3v1m7k0
 
 MHIRA_FRONTEND_PORT=8080
 MHIRA_BACKEND_PORT=8090
+
+# Set a random 32 character string used to sign JWT tokens
+# eg: use output of command `openssl rand -base64 32`
+JWT_SECRET=changeMe
 
 ### NGINX ##############################################################################################################
 
