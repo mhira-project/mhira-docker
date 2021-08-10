@@ -6,13 +6,7 @@
 
 Installation instruction can be found [here](https://docs.docker.com/get-docker/)
 
-After installation, add docker to the user competencies
-
-    sudo usermod -aG docker $USER
-
-Restart docker
-
-    sudo systemctl restart docker
+Consider following the post-installation steps e.g. add your user to a docker group.
 
 ### Docker-compose
 
