@@ -4,6 +4,7 @@ services:
   ### MHIRA Frontend Container ###########################
 
   mhira-frontend:
+    image: ${REGISTRY_HOST}/mhira-frontend:development
     build: ./mhira-frontend
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
