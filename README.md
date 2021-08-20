@@ -15,15 +15,15 @@ For Windows and Mac this is installed along with docker. For Linux, installation
 ## Installation
 
 Clone this repository to your machine
-    
+
     git clone https://bitbucket.org/mhiratz/mhira-docker.git
-    
+
 Move into the `mhira-docker` folder
-    
+
     cd mhira-docker
-    
+
 Copy example `environment` file to create your own config
-    
+
     cp env-example .env
 
 Change the line `SUPERADMIN_PASSWORD=` after the equal sign to set the password for the superadmin account. Run this line after changing `placeholder` to your desired password.
@@ -40,7 +40,7 @@ Run docker-compose to initialize your app
 
 If the above steps ran successfully, you should now be able to access the mhira application on your local machine at port 8080.
 
-    http://localhost:8080
+    http://localhost:80
 
 ## Updating
 
