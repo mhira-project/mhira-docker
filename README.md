@@ -26,10 +26,6 @@ Copy example `environment` file to create your own config
 
     cp env-example .env
 
-Change the line `SUPERADMIN_PASSWORD=` after the equal sign to set the password for the superadmin account. Run this line after changing `placeholder` to your desired password.
-
-    sed -i 's/SUPERADMIN_PASSWORD=/SUPERADMIN_PASSWORD=placeholder/' .env
-
 Change the line `JWT_SECRET=changeMe` after the equal sign to set the secret key, which is a 32 character string. Run this line in order to change it into a randomly generated key.
 
     sed -i "s|changeMe|$(openssl rand -base64 32)|" .env
@@ -44,10 +40,6 @@ If the above steps ran successfully, you should now be able to access the mhira 
 
 ## Updating
 
-After MHIRA is installed, to get the newest version use this comand from the same folder where the docker files are situated
+To update MHIRA, execute the the commands in the file 'update.sh'. 
 
-    git pull
-
-After the latest version is pulled to your computer, compose the latest version
-
-    sudo docker-compose pull
+    ./update.sh
