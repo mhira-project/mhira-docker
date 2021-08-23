@@ -40,6 +40,6 @@ If the above steps ran successfully, you should now be able to access the mhira 
 
 ## Updating
 
-To update MHIRA, execute the the commands in the file 'update.sh'. 
+To update MHIRA, execute the commands in the file 'update.sh'. 
 
     ./update.sh
