@@ -32,6 +32,7 @@ Change the line `JWT_SECRET=changeMe` after the equal sign to set the secret key
 
 Run docker-compose to initialize your app
 
+    docker-compose pull
     docker-compose up --build -d
 
 If the above steps ran successfully, you should now be able to access the mhira application on your local machine at port 8080.
