@@ -1,5 +1,5 @@
 {
-    default_sni mhira.local
+    default_sni localhost
 }
 
 localhost, 127.0.0.1, {$SITE_DOMAIN} {
