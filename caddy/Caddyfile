@@ -6,12 +6,6 @@ localhost, 127.0.0.1, {$SITE_DOMAIN} {
     reverse_proxy /api/* mhira-backend:3000
     reverse_proxy /graphql mhira-backend:3000
     reverse_proxy mhira-frontend
-
-    tls internal
-
-    # tls {
-    #  dns cloudflare
-    # }
 }
 
 

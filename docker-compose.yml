@@ -6,6 +6,7 @@ services:
   mhira-frontend:
     image: ${REGISTRY_HOST}/mhira-frontend:development
     build: ./mhira-frontend
+    restart: unless-stopped
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
     ports:
@@ -18,6 +19,7 @@ services:
 
   mhira-backend:
     image: ${REGISTRY_HOST}/mhira-backend:development
+    restart: unless-stopped
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
     ports:
@@ -55,6 +57,7 @@ services:
 
   caddy:
     build: ./caddy
+    restart: unless-stopped
     environment:
       - SITE_DOMAIN=${SITE_DOMAIN}
     volumes:
@@ -75,6 +78,7 @@ services:
 
   postgres:
     build: ./postgres
+    restart: unless-stopped
     volumes:
       - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql
     ports:
@@ -90,6 +94,7 @@ services:
 
   mongo:
     build: ./mongo
+    restart: unless-stopped
     ports:
       - "${MONGODB_PORT}:27017"
     volumes:
@@ -101,6 +106,7 @@ services:
 
   redis:
     build: ./redis
+    restart: unless-stopped
     volumes:
       - ${DATA_SAVE_PATH}/redis:/data
     ports:
