@@ -30,15 +30,18 @@ Change the line `JWT_SECRET=changeMe` after the equal sign to set the secret key
 
     sed -i "s|changeMe|$(openssl rand -base64 32)|" .env
 
+Change the line `SITE_DOMAIN=mhira.local` to set the site domain. Valid value can be externally accessible IP address of the site, or a domain name.
+
 Run docker-compose to initialize your app
 
     docker-compose pull
     docker-compose up --build -d
 
-If the above steps ran successfully, you should now be able to access the mhira application on your local machine at port 8080.
+If the above steps ran successfully, you should now be able to access the mhira application on your local machine at below address.
 
-    http://localhost:80
+    https://localhost
 
+If SITE_DOMAIN is set in above steps, MHIRA application can be accessible outside the server using the site domain name.
 ## Updating
 
 To update MHIRA, execute the commands in the file 'update.sh'. 
