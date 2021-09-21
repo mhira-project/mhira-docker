@@ -51,5 +51,5 @@ Set `SITE_DOMAIN` in `.env`, MHIRA application can be accessible outside the ser
 
 To update MHIRA, execute the commands in the file 'update.sh'. 
 
-    docker-compose pull
+    git pull
     ./update.sh
