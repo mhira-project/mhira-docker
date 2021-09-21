@@ -9,8 +9,6 @@ services:
     restart: unless-stopped
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
-    ports:
-      - "${MHIRA_FRONTEND_PORT}:80"
     tty: true
     networks:
       - frontend
@@ -22,8 +20,6 @@ services:
     restart: unless-stopped
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
-    ports:
-      - "${MHIRA_BACKEND_PORT}:3000"
     environment:
       - SECRET=${JWT_SECRET}
       - SERVER_PORT=3000
