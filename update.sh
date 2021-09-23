@@ -1,4 +1,5 @@
 #!/bin/sh
+set -Eeuo pipefail
 
 git pull 
 

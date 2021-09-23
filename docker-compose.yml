@@ -76,7 +76,7 @@ services:
     build: ./postgres
     restart: unless-stopped
     volumes:
-      - ${DATA_SAVE_PATH}/postgres:/var/lib/postgresql
+      - ${DATA_SAVE_PATH}/postgres/data:/var/lib/postgresql/data
     ports:
       - "${POSTGRES_PORT}:5432"
     environment:
