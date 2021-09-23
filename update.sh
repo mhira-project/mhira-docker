@@ -5,6 +5,6 @@ git pull
 
 docker-compose pull
 
-docker-compose down --remove-orphans 
+# docker-compose down --remove-orphans 
 
-docker-compose up -d --build
+docker-compose up -d --build --remove-orphan
