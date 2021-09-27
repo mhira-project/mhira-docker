@@ -41,7 +41,10 @@ If the above steps ran successfully, you should now be able to access the mhira 
 
     https://localhost
 
-If SITE_DOMAIN is set in above steps, MHIRA application can be accessible outside the server using the site domain name.
+
+If `SITE_DOMAIN` is set in above steps, MHIRA application can be accessible outside the server using the site domain name.
+
+
 ## Updating
 
 To update MHIRA, execute the commands in the file 'update.sh'. 
