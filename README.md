@@ -42,7 +42,9 @@ If the above steps ran successfully, you should now be able to access the mhira 
     https://localhost
 
 
-If `SITE_DOMAIN` is set in above steps, MHIRA application can be accessible outside the server using the site domain name.
+Set `SITE_DOMAIN` in `.env`, MHIRA application can be accessible outside the server using the site domain name.
+
+** The site domain can be a Domain name or IP address for the site.
 
 
 ## Updating
