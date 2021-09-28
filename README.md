@@ -1,4 +1,6 @@
-# Mhira Docker Deployment
+# 🐳 Mhira Docker
+
+Docker compose deployment for [MHIRA](https://mhira-project.org) software.
 
 ## Pre-requisites
 
@@ -16,7 +18,7 @@ For Windows and Mac this is installed along with docker. For Linux, installation
 
 Clone this repository to your machine
 
-    git clone https://bitbucket.org/mhiratz/mhira-docker.git
+    git clone https://github.com/mhira-project/mhira-docker.git
 
 Move into the `mhira-docker` folder
 
