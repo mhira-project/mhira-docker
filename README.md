@@ -4,6 +4,9 @@ Docker compose deployment for [MHIRA](https://mhira-project.org) software.
 
 ## Pre-requisites
 
+* [Docker](#docker)
+* [Docker-compose](#docker)
+
 ### Docker
 
 Installation instruction can be found [here](https://docs.docker.com/get-docker/)
@@ -43,15 +46,27 @@ If the above steps ran successfully, you should now be able to access the mhira 
 
     https://localhost
 
+Set `SITE_DOMAIN` for MHIRA application can be accessible outside the server using the site domain name or external IP address
 
-Set `SITE_DOMAIN` in `.env`, MHIRA application can be accessible outside the server using the site domain name.
+    # Site domain as domain name
+    SITE_DOMAIN=mhira.myorganization.com
 
-** The site domain can be a Domain name or IP address for the site.
+    # Or Site domain as server's external IP address
+    SITE_DOMAIN=192.168.10.2
+
+    # Also supports multiple domain names or combination of IP address and domains, with comma separation
+    SITE_DOMAIN=mhira.myorganization.com, 10.0.0.2
 
 
-## Updating
+## Updating your installation
 
-To update MHIRA, execute the commands in the file 'update.sh'. 
+To update your existing installation to a newer version of MHIRA software execute following commands
 
-    git pull
-    ./update.sh
+    # Pull latest docker config
+    git pull 
+
+    # Pull latest docker images
+    docker-compose pull  
+
+    # Restart containers with updated images and config   
+    docker-compose up -d --build --remove-orphan
