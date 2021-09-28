@@ -63,7 +63,6 @@ To access MHIRA software from outside of the server set `SITE_DOMAIN` in your en
 
 * If the using an internal domain name or IP address as `SITE_DOMAIN`, the webserver will provision a self-signed certificate. Users will be faced with a security warning when accessing the site using self-signed certificate, and will need to accept/trust the certificate to access the site.
 
-### HTTP Certificate
 ## Updating your installation
 
 To update your existing installation to a newer version of MHIRA software execute following commands
