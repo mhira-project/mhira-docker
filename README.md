@@ -9,13 +9,13 @@ Docker compose deployment for [MHIRA](https://mhira-project.org) software.
 
 ### Docker
 
-Installation instruction can be found [here](https://docs.docker.com/get-docker/)
+* Docker installation instruction can be found [here](https://docs.docker.com/get-docker/)
 
-Consider following the post-installation steps e.g. add your user to a docker group.
+* Consider following the post-installation steps e.g. add your user to a docker group.
 
 ### Docker-compose
 
-For Windows and Mac this is installed along with docker. For Linux, installation instructions can be found [here](https://docs.docker.com/compose/install/)
+* For Windows and Mac this is installed along with docker. For Linux, installation instructions can be found [here](https://docs.docker.com/compose/install/)
 
 ## Installation
 
@@ -35,8 +35,6 @@ Change the line `JWT_SECRET=changeMe` after the equal sign to set the secret key
 
     sed -i "s|changeMe|$(openssl rand -base64 32)|" .env
 
-Change the line `SITE_DOMAIN=mhira.local` to set the site domain. Valid value can be externally accessible IP address of the site, or a domain name.
-
 Run docker-compose to initialize your app
 
     docker-compose pull
@@ -46,7 +44,9 @@ If the above steps ran successfully, you should now be able to access the mhira 
 
     https://localhost
 
-Set `SITE_DOMAIN` for MHIRA application can be accessible outside the server using the site domain name or external IP address
+### External access of MHIRA and HTTPS Certificates
+
+To access MHIRA software from outside of the server set `SITE_DOMAIN` in your environment file to the externally accessible domain name or  IP address of the server.
 
     # Site domain as domain name
     SITE_DOMAIN=mhira.myorganization.com
@@ -57,7 +57,13 @@ Set `SITE_DOMAIN` for MHIRA application can be accessible outside the server usi
     # Also supports multiple domain names or combination of IP address and domains, with comma separation
     SITE_DOMAIN=mhira.myorganization.com, 10.0.0.2
 
+* Restart your docker containers to apply the environment file changes
 
+* Using a publicly accessible domain name as `SITE_DOMAIN`, the bundled in [Caddy](https://caddyserver.com/) webserver will automatically provision a Trusted HTTPS certificate for domain.
+
+* If the using an internal domain name or IP address as `SITE_DOMAIN`, the webserver will provision a self-signed certificate. Users will be faced with a security warning when accessing the site using self-signed certificate, and will need to accept/trust the certificate to access the site.
+
+### HTTP Certificate
 ## Updating your installation
 
 To update your existing installation to a newer version of MHIRA software execute following commands
