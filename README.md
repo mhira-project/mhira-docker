@@ -1,6 +1,7 @@
 # 🐳 Mhira Docker
+[![Git Commit](https://img.shields.io/github/last-commit/mhira-project/mhira-docker.svg?style=flat)](https://github.com/mhira-project/mhira-docker/commits/main)
 
-Docker compose deployment for [MHIRA](https://mhira-project.org) software.
+> This is the Docker-compose deployment for [MHIRA](https://mhira-project.org) software.
 
 ## Pre-requisites
 
