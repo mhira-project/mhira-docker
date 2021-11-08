@@ -1,4 +1,4 @@
-FROM caddy:alpine
+FROM caddy:2-builder-alpine
 
 # ARG plugins="cors"
 

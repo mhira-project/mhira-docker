@@ -4,7 +4,7 @@ services:
   ### MHIRA Frontend Container ###########################
 
   mhira-frontend:
-    image: ${REGISTRY_HOST}/mhira-frontend:development
+    image: mhiraproject/mhira-frontend:latest
     build: ./mhira-frontend
     restart: unless-stopped
     extra_hosts:
@@ -16,7 +16,8 @@ services:
   ### MHIRA Backend Container ###########################
 
   mhira-backend:
-    image: ${REGISTRY_HOST}/mhira-backend:development
+    image: mhiraproject/mhira-backend:latest
+    build: ./mhira-backend
     restart: unless-stopped
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
