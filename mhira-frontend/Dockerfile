@@ -1,4 +1,4 @@
-FROM public.ecr.aws/a3v1m7k0/mhira-frontend:development
+FROM mhiraproject/mhira-frontend:latest
 
 WORKDIR /usr/share/nginx/html
 

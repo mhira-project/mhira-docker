@@ -1,4 +1,4 @@
-FROM mongo:latest
+FROM mongo:5
 
 #COPY mongo.conf /usr/local/etc/mongo/mongo.conf
 
