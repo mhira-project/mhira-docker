@@ -25,11 +25,11 @@ services:
       - SECRET=${JWT_SECRET}
       - SERVER_PORT=3000
       - TYPEORM_CONNECTION=postgres
-      - TYPEORM_HOST=${POSTGRES_HOST}
+      - TYPEORM_HOST=postgres
       - TYPEORM_USERNAME=${POSTGRES_USER}
       - TYPEORM_DATABASE=${POSTGRES_DB}
       - TYPEORM_PASSWORD=${POSTGRES_PASSWORD}
-      - TYPEORM_PORT=${POSTGRES_PORT}
+      - TYPEORM_PORT=5432
       - TYPEORM_SYNCHRONIZE=true
       - TYPEORM_LOGGING=true
       - TYPEORM_ENTITIES_DIR=/../**/*.model.{js,ts}
@@ -78,8 +78,6 @@ services:
     restart: unless-stopped
     volumes:
       - ${DATA_SAVE_PATH}/postgres/data:/var/lib/postgresql/data
-    ports:
-      - "${POSTGRES_PORT}:5432"
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
@@ -92,8 +90,6 @@ services:
   mongo:
     build: ./mongo
     restart: unless-stopped
-    ports:
-      - "${MONGODB_PORT}:27017"
     volumes:
       - ${DATA_SAVE_PATH}/mongo:/data/db
     networks:
@@ -106,8 +102,6 @@ services:
     restart: unless-stopped
     volumes:
       - ${DATA_SAVE_PATH}/redis:/data
-    ports:
-      - "${REDIS_PORT}:6379"
     networks:
       - backend
 
