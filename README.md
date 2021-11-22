@@ -76,3 +76,27 @@ To update your existing installation to a newer version of MHIRA software execut
 
     # Restart containers with updated images and config   
     docker-compose up -d --build --remove-orphan
+
+## Common Troubleshooting issues
+
+### Reseting superadmin password
+
+In the event the `superadmin` account password is lost or blocked, you can connect to the postgres database via commandline to reset password.
+
+Run
+```bash
+# Connect to postgres using psql CLI tool
+docker-compose exec postgres psql '-Udefault'
+
+```
+
+This will open PSQL prompt. In PSQL prompt run the following command
+
+```psql
+# connect to default database
+\c default
+
+#Update password to 'Password@1'
+update user set password = '$argon2id$v=19$m=16,t=2,p=1$Umd4VFBYZW1NdXdSbThCeA$IO/O4hXWPy3Y9jFPXLMjpg' where code = 'superadmin'
+
+```
