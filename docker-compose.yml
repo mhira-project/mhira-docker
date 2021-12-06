@@ -107,7 +107,7 @@ services:
 
   ### Shinny Container #########################################
   shiny:
-    image: rocker/shiny
+    image: rocker/shiny:4
     build: ./shiny
     restart: always
     ports:

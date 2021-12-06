@@ -1,4 +1,4 @@
-FROM rocker/shiny-verse:latest
+FROM rocker/shiny-verse:4
 
 RUN install2.r --error \
     --deps FALSE \
