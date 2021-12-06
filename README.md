@@ -36,6 +36,10 @@ Change the line `JWT_SECRET=changeMe` after the equal sign to set the secret key
 
     sed -i "s|changeMe|$(openssl rand -base64 32)|" .env
 
+Change the line `RSTUDIO_PASSWORD=rstudioPassword` after the equal sign to set the secret key. Run this line in order to change it into a randomly generated key.
+
+    sed -i "s|rstudioPassword|$(openssl rand -base64 16)|" .env
+
 Run docker-compose to initialize your app
 
     docker-compose pull
@@ -44,6 +48,10 @@ Run docker-compose to initialize your app
 If the above steps ran successfully, you should now be able to access the mhira application on your local machine at below address.
 
     https://localhost
+
+# Accessing R-studio container
+
+    https://localhost:8787
 
 ### External access of MHIRA and HTTPS Certificates
 

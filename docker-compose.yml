@@ -119,6 +119,21 @@ services:
       - frontend
       - backend
 
+  ### R-Studio Container #########################################
+  rstudio:
+    image: rocker/tidyverse:4
+    build: ./rstudio
+    restart: always
+    ports:
+      - '8787:8787'
+    volumes:
+      - ${DATA_SAVE_PATH}/rstudio:/home/rstudio'
+    environment:
+      - PASSWORD=${RSTUDIO_PASSWORD}
+    networks:
+      - frontend
+      - backend
+
 ### Networks Setup ############################################
 
 networks:
