@@ -1,0 +1,10 @@
+FROM rocker/shiny-verse:latest
+
+RUN install2.r --error \
+    --deps FALSE \
+    data.table \
+    RColorBrewer \
+    httr \
+    shinydashboard \
+    tidyjson \
+    jsonlite \
