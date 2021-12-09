@@ -49,7 +49,7 @@ If the above steps ran successfully, you should now be able to access the mhira 
 
     https://localhost
 
-# Accessing R-studio container
+Accessing R-studio container
 
     https://localhost:8787
 
