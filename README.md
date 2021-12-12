@@ -33,9 +33,7 @@ Change the line `JWT_SECRET=changeMe` after the equal sign to set the secret key
 
     sed -i "s|changeMe|$(openssl rand -base64 32)|" .env
 
-Change the line `RSTUDIO_PASSWORD=rstudioPassword` after the equal sign to set the secret key. Run this line in order to change it into a randomly generated key.
-
-    sed -i "s|rstudioPassword|$(openssl rand -base64 16)|" .env
+Change the line `RSTUDIO_PASSWORD=rstudioPassword` after the equal sign to set the secret key. 
 
 Run docker-compose to initialize your app
 
