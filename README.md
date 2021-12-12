@@ -5,10 +5,7 @@
 
 ## Pre-requisites
 
-* [Docker](#docker)
-* [Docker-compose](#docker)
-
-### Docker
+You will need to install docker and docker-compose:
 
 * Docker installation instruction can be found [here](https://docs.docker.com/get-docker/)
 
