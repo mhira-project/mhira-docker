@@ -114,7 +114,7 @@ services:
       - '3838:3838'
     volumes:
       - ${DATA_SAVE_PATH}/shiny/logs:/var/log/shiny-server
-      - ${DATA_SAVE_PATH}/shiny/apps:/srv/shiny-server/
+      - ${DATA_SAVE_PATH}/shiny/apps:/srv/shiny-server/shiny
     networks:
       - frontend
       - backend
