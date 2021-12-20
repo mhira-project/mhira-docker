@@ -60,7 +60,7 @@ services:
     volumes:
       - ${CADDY_CUSTOM_CADDYFILE}:/etc/caddy/Caddyfile
       - ${CADDY_HOST_LOG_PATH}:/var/log/caddy
-      - ${DATA_SAVE_PATH}:/root/.caddy
+      - ${DATA_SAVE_PATH}/caddy:/root/.caddy
     ports:
       - "${CADDY_HOST_HTTP_PORT}:80"
       - "${CADDY_HOST_HTTPS_PORT}:443"
@@ -133,6 +133,15 @@ services:
     networks:
       - frontend
       - backend
+
+### Backups Container #########################################
+  backup:
+    build:
+      context: ./backup
+    volumes:
+      - ${DATA_SAVE_PATH}:/data
+      - ${DATA_BACKUP_PATH}:/backups
+      - ${DATA_BACKUP_LOG_PATH}:/var/log/
 
 ### Networks Setup ############################################
 
