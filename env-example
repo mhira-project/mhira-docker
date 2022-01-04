@@ -7,6 +7,11 @@
 
 DATA_SAVE_PATH=~/.mhira-docker/data
 
+### Backup Utility Config ##########################################################################################################
+# Choose storage path on your machine. For daily backups storage.
+DATA_BACKUP_PATH=~/.mhira-docker/backups
+DATA_BACKUP_LOG_PATH=./logs/backup
+
 ### Docker compose files ###############################################################################################
 # Select which docker-compose files to include.
 # If using docker-sync. Set the value to: docker-compose.yml:docker-compose.dev.yml:docker-compose.sync.yml

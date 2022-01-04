@@ -1,0 +1,16 @@
+#!/bin/bash
+
+echo "Running mhira data restore..."
+
+echo "Please select archive to restore from:\n"
+select archive in /backups/*
+do
+    if [ -n "$archive" ]; then
+        tar -xzvf $archive -C /
+        echo "Finished running mhira data restore!"
+        break
+    else
+        echo "Invalid selection."
+        break
+    fi
+done

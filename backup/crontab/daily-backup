@@ -1,0 +1,2 @@
+# Daily backup at midnight
+0 0 * * * root /bin/backup >> /dev/null 2>&1
