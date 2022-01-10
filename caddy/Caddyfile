@@ -7,7 +7,14 @@ localhost, 127.0.0.1, {$SITE_DOMAIN} {
     reverse_proxy /graphql mhira-backend:3000
     reverse_proxy /shiny shiny:3838
     reverse_proxy /shiny/* shiny:3838
+
+    route /rstudio* {
+        uri strip_prefix /rstudio
+        reverse_proxy rstudio:8787 {
+            header_up Host {host}/rstudio
+            header_down Location "(http|https):\/\/(.*)\/(.*)" "https://$2/rstudio/$3"
+        }
+    }
+
     reverse_proxy mhira-frontend
 }
-
-
