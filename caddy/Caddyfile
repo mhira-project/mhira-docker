@@ -12,7 +12,7 @@ localhost, 127.0.0.1, {$SITE_DOMAIN} {
         uri strip_prefix /rstudio
         reverse_proxy rstudio:8787 {
             header_up Host {host}/rstudio
-            header_down Location "(http|https):\/\/(.*)\/(.*)" "https://$2/rstudio/$3"
+            header_down Location "(http|https):\/\/(.*)\/(.*)" "$1://$2/rstudio/$3"
         }
     }
 
