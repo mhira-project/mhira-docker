@@ -7,7 +7,32 @@ localhost, 127.0.0.1, {$SITE_DOMAIN} {
     reverse_proxy /graphql mhira-backend:3000
     reverse_proxy /shiny shiny:3838
     reverse_proxy /shiny/* shiny:3838
+
+    route /rstudio* {
+
+        # Before forwarding requests to backend rstudio container
+        # strip the prefix `/rstudio` as the backend container
+        # does not know of this prefix, only the path that follows it
+        uri strip_prefix /rstudio
+
+
+        reverse_proxy rstudio:8787 {
+
+            # Modify host header sent to backend rstudio container
+            # adding `/rstudio` suffix to it
+            header_up Host {host}/rstudio
+
+            # Modify redirects sent by backend rstudio container
+            # to add `/rstudio` prefix to the redirected path.
+            # This is achieved by rewriting the header named `Location`
+            # by splitting it into 3 parts;
+            # $1 the scheme = https or http
+            # $2 the domain = mhira domain name
+            # $3 the path accessed after the domain name
+            # and rewrite the url adding `/rstudio` prefix to the path
+            header_down Location "(http|https):\/\/(.*)\/(.*)" "$1://$2/rstudio/$3"
+        }
+    }
+
     reverse_proxy mhira-frontend
 }
-
-
