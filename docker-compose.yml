@@ -127,7 +127,7 @@ services:
     ports:
       - '8787:8787'
     volumes:
-      - ${DATA_SAVE_PATH}/shiny/apps:/home/rstudio
+      - ${DATA_SAVE_PATH}/shiny:/home/rstudio
     environment:
       - PASSWORD=${RSTUDIO_PASSWORD}
     networks:
