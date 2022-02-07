@@ -1,0 +1,84 @@
+###########################################################
+# General Setup
+###########################################################
+
+### Data Path ##########################################################################################################
+# Choose storage path on your machine. For all storage systems.
+
+DATA_SAVE_PATH=~/.mhira-docker/data
+
+### Backup Utility Config ##########################################################################################################
+# Choose storage path on your machine. For daily backups storage.
+DATA_BACKUP_PATH=~/.mhira-docker/backups
+DATA_BACKUP_LOG_PATH=./logs/backup
+
+### Docker compose files ###############################################################################################
+# Select which docker-compose files to include.
+# If using docker-sync. Set the value to: docker-compose.yml:docker-compose.dev.yml:docker-compose.sync.yml
+# Change the separator from : to ; on Windows
+
+COMPOSE_PATH_SEPARATOR=:
+COMPOSE_FILE=docker-compose.yml
+
+### Docker Host IP #####################################################################################################
+# Enter your Docker Host IP (will be appended to /etc/hosts). Default is `10.0.75.1`
+
+DOCKER_HOST_IP=10.0.75.1
+
+########################################################################################################################
+
+###########################################################
+# Containers Customization
+###########################################################
+
+### MHIRA ##############################################################################################################
+
+# Docker Registry container MHIRA images
+REGISTRY_HOST=public.ecr.aws/mhira
+
+# Intial password for super admin user. Default=`superadmin` if not defined
+SUPERADMIN_USERNAME=superadmin
+SUPERADMIN_PASSWORD=superadmin
+
+# Set a random 32 character string used to sign JWT tokens
+# eg: use output of command `openssl rand -base64 32`
+JWT_SECRET=changeMe
+
+### CADDY WEBSERVER ####################################################################################################
+
+# SITE_DOMAIN
+# 
+# Externally accessible site domain name.
+# Used for securing the site with HTTPS certificate.
+#    * Acceptable values are both IP Addresses and Host name
+#    * Can specify more than one with comma(,) separation
+#    * eg: 151.11.12.1, mhira.myclinic.org
+SITE_DOMAIN=mhira.local
+
+CADDY_HOST_HTTP_PORT=80
+CADDY_HOST_HTTPS_PORT=443
+CADDY_HOST_LOG_PATH=./logs/caddy
+CADDY_CUSTOM_CADDYFILE=./caddy/Caddyfile
+
+### REDIS ##############################################################################################################
+
+REDIS_PORT=6379
+
+### POSTGRES ###########################################################################################################
+
+POSTGRES_HOST=postgres
+POSTGRES_DB=default
+POSTGRES_USER=default
+POSTGRES_PASSWORD=secret
+POSTGRES_PORT=5432
+
+### MONGODB ############################################################################################################
+
+MONGODB_PORT=27017
+MONGODB_CONNECTION_STRING=mongodb://mongo:27017/questionnaireDB
+
+### RSTUDIO ############################################################################################################
+
+RSTUDIO_PASSWORD=rstudioPassword
+
+########################################################################################################################

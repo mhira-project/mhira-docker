@@ -1,0 +1,162 @@
+version: "3.8"
+
+services:
+  ### MHIRA Frontend Container ###########################
+
+  mhira-frontend:
+    image: mhiraproject/mhira-frontend:latest
+    build: ./mhira-frontend
+    restart: unless-stopped
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
+    tty: true
+    networks:
+      - frontend
+
+  ### MHIRA Backend Container ###########################
+
+  mhira-backend:
+    image: mhiraproject/mhira-backend:latest
+    build: ./mhira-backend
+    restart: unless-stopped
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
+    environment:
+      - SECRET=${JWT_SECRET}
+      - SERVER_PORT=3000
+      - TYPEORM_CONNECTION=postgres
+      - TYPEORM_HOST=postgres
+      - TYPEORM_USERNAME=${POSTGRES_USER}
+      - TYPEORM_DATABASE=${POSTGRES_DB}
+      - TYPEORM_PASSWORD=${POSTGRES_PASSWORD}
+      - TYPEORM_PORT=5432
+      - TYPEORM_SYNCHRONIZE=true
+      - TYPEORM_LOGGING=true
+      - TYPEORM_ENTITIES_DIR=/../**/*.model.{js,ts}
+      - TYPEORM_MIGRATIONS_TABLE_NAME=migrations
+      - TYPEORM_MIGRATIONS=migration/*.js
+      - TYPEORM_MIGRATIONS_DIR=src/migrations
+      - CACHE_STORE=redis
+      - REDIS_HOST=redis
+      - MONGODB_CONNECTION_STRING=${MONGODB_CONNECTION_STRING}
+      - SUPERADMIN_USERNAME=${SUPERADMIN_USERNAME}
+      - SUPERADMIN_PASSWORD=${SUPERADMIN_PASSWORD}
+    tty: true
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - redis
+      - postgres
+      - mongo
+
+  ### Caddy Server Container ##################################
+
+  caddy:
+    build: ./caddy
+    restart: unless-stopped
+    environment:
+      - SITE_DOMAIN=${SITE_DOMAIN}
+    volumes:
+      - ${CADDY_CUSTOM_CADDYFILE}:/etc/caddy/Caddyfile
+      - ${CADDY_HOST_LOG_PATH}:/var/log/caddy
+      - ${DATA_SAVE_PATH}/caddy:/root/.caddy
+    ports:
+      - "${CADDY_HOST_HTTP_PORT}:80"
+      - "${CADDY_HOST_HTTPS_PORT}:443"
+    depends_on:
+      - mhira-frontend
+      - mhira-backend
+    networks:
+      - frontend
+      - backend
+
+  ### PostgreSQL Container ####################################
+
+  postgres:
+    build: ./postgres
+    restart: unless-stopped
+    volumes:
+      - ${DATA_SAVE_PATH}/postgres/data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - backend
+
+  ### MongoDB Container #######################################
+
+  mongo:
+    build: ./mongo
+    restart: unless-stopped
+    volumes:
+      - ${DATA_SAVE_PATH}/mongo:/data/db
+    networks:
+      - backend
+
+  ### Redis Container #########################################
+
+  redis:
+    build: ./redis
+    restart: unless-stopped
+    volumes:
+      - ${DATA_SAVE_PATH}/redis:/data
+    networks:
+      - backend
+
+  ### Shinny Container #########################################
+  shiny:
+    image: rocker/shiny:4
+    build: ./shiny
+    restart: always
+    ports:
+      - '3838:3838'
+    volumes:
+      - ${DATA_SAVE_PATH}/shiny/logs:/var/log/shiny-server
+      - ${DATA_SAVE_PATH}/shiny/apps:/srv/shiny-server/shiny
+    networks:
+      - frontend
+      - backend
+
+  ### R-Studio Container #########################################
+  rstudio:
+    image: rocker/tidyverse:4
+    build: ./rstudio
+    restart: always
+    ports:
+      - '8787:8787'
+    volumes:
+      - ${DATA_SAVE_PATH}/rstudio:/home/rstudio'
+    environment:
+      - PASSWORD=${RSTUDIO_PASSWORD}
+    networks:
+      - frontend
+      - backend
+
+### Backups Container #########################################
+  backup:
+    build:
+      context: ./backup
+    volumes:
+      - ${DATA_SAVE_PATH}:/data
+      - ${DATA_BACKUP_PATH}:/backups
+      - ${DATA_BACKUP_LOG_PATH}:/var/log/
+
+### Networks Setup ############################################
+
+networks:
+  frontend:
+    driver: "bridge"
+  backend:
+    driver: "bridge"
+
+### Volumes Setup #############################################
+
+volumes:
+  postgres:
+    driver: "local"
+  redis:
+    driver: "local"
+  mongo:
+    driver: "local"
