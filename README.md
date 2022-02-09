@@ -1,4 +1,5 @@
 # 🐳 Mhira Docker
+
 [![Git Commit](https://img.shields.io/github/last-commit/mhira-project/mhira-docker.svg?style=flat)](https://github.com/mhira-project/mhira-docker/commits/main)
 
 > This is the Docker-compose deployment for [MHIRA](https://mhira-project.org) software.
@@ -33,8 +34,6 @@ Change the line `JWT_SECRET=changeMe` after the equal sign to set the secret key
 
     sed -i "s|changeMe|$(openssl rand -base64 32)|" .env
 
-Change the line `RSTUDIO_PASSWORD=rstudioPassword` after the equal sign to set the secret key. 
-
 Run docker-compose to initialize your app
 
     docker-compose pull
@@ -44,9 +43,33 @@ If the above steps ran successfully, you should now be able to access the mhira 
 
     https://localhost
 
+### Running R-Studio container
+
+The installation comes with bundled in `rstudio` container.
+
+The RStudio container may be useful for purposes of creating/editing custom reporting scripts using R.
+
+RStudio this is not enabled by default. To enabled `rstudio` set following values in your `env` file.
+
+```env
+# To enable `rstudio` container uncomment the following line, that enables `rstudio` profile
+#COMPOSE_PROFILES=rstudio
+
+# uncomment the following line, and change the value after the equal sign to set the secret key. 
+#RSTUDIO_PASSWORD=rstudioPassword
+```
+
+After setting above values run
+
+```bash
+docker-compose up -d
+```
+
 Accessing R-studio container
 
-    https://localhost:8787
+    https://localhost:8787 
+    or 
+    https://localhost/rstudio
 
 ### External access of MHIRA and HTTPS Certificates
 
@@ -67,6 +90,12 @@ To access MHIRA software from outside of the server set `SITE_DOMAIN` in your en
 
 * If the using an internal domain name or IP address as `SITE_DOMAIN`, the webserver will provision a self-signed certificate. Users will be faced with a security warning when accessing the site using self-signed certificate, and will need to accept/trust the certificate to access the site.
 
+Accessing MHIRA using external domain or IP address
+
+    https://{{mhiradomain}} or https://{{mhiraip}}
+
+    eg: https://mhira.myorganization.com or https://192.168.10.2
+
 ## Updating your installation
 
 To update your existing installation to a newer version of MHIRA software execute following commands
@@ -79,4 +108,3 @@ To update your existing installation to a newer version of MHIRA software execut
 
     # Restart containers with updated images and config   
     docker-compose up -d --build --remove-orphan
-

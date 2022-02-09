@@ -83,6 +83,10 @@ MONGODB_CONNECTION_STRING=mongodb://mongo:27017/questionnaireDB
 
 ### RSTUDIO ############################################################################################################
 
-RSTUDIO_PASSWORD=rstudioPassword
+# To enable `rstudio` container uncomment the following line, that enables `rstudio` profile
+#COMPOSE_PROFILES=rstudio
+
+# uncomment the following line, and set a suitable admin password for `rstudio`
+#RSTUDIO_PASSWORD=rstudioPassword
 
 ########################################################################################################################
