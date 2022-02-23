@@ -44,6 +44,10 @@ SUPERADMIN_PASSWORD=superadmin
 # eg: use output of command `openssl rand -base64 32`
 JWT_SECRET=changeMe
 
+# Enable/Disable Graphql Playground
+# disabled by default
+GRAPHQL_PLAYGROUND_ENABLED=false
+
 ### CADDY WEBSERVER ####################################################################################################
 
 # SITE_DOMAIN
