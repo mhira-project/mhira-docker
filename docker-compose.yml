@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 
 services:
   ### MHIRA Frontend Container ###########################
@@ -122,6 +122,8 @@ services:
 
   ### R-Studio Container #########################################
   rstudio:
+    profiles: 
+      - rstudio
     image: rocker/tidyverse:4
     build: ./rstudio
     restart: always
