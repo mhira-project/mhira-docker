@@ -30,12 +30,13 @@ services:
       - TYPEORM_DATABASE=${POSTGRES_DB}
       - TYPEORM_PASSWORD=${POSTGRES_PASSWORD}
       - TYPEORM_PORT=5432
-      - TYPEORM_SYNCHRONIZE=true
+      - TYPEORM_SYNCHRONIZE=false
       - TYPEORM_LOGGING=true
       - TYPEORM_ENTITIES_DIR=/../**/*.model.{js,ts}
       - TYPEORM_MIGRATIONS_TABLE_NAME=migrations
-      - TYPEORM_MIGRATIONS=migration/*.js
+      - TYPEORM_MIGRATIONS=./dist/migrations/*.js
       - TYPEORM_MIGRATIONS_DIR=src/migrations
+      - TYPEORM_MIGRATIONS_RUN=true
       - CACHE_STORE=redis
       - REDIS_HOST=redis
       - MONGODB_CONNECTION_STRING=${MONGODB_CONNECTION_STRING}
