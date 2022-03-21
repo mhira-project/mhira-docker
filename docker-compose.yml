@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.9"
 
 services:
   ### MHIRA Frontend Container ###########################
@@ -42,6 +42,7 @@ services:
       - MONGODB_CONNECTION_STRING=${MONGODB_CONNECTION_STRING}
       - SUPERADMIN_USERNAME=${SUPERADMIN_USERNAME}
       - SUPERADMIN_PASSWORD=${SUPERADMIN_PASSWORD}
+      - GRAPHQL_PLAYGROUND_ENABLED=${GRAPHQL_PLAYGROUND_ENABLED}
     tty: true
     networks:
       - frontend
@@ -122,6 +123,8 @@ services:
 
   ### R-Studio Container #########################################
   rstudio:
+    profiles: 
+      - rstudio
     image: rocker/tidyverse:4
     build: ./rstudio
     restart: always
