@@ -8,5 +8,4 @@ RUN install2.r --error \
     shinydashboard \
     tidyjson \
     jsonlite \
-    shinyTree \
     htmlwidgets
