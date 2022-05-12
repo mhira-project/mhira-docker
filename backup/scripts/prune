@@ -1,0 +1,10 @@
+#!/bin/sh
+
+date=$(date '+%Y-%m-%dT%T')
+echo "Running mhira backups prune... ${date}"
+
+# Deletes all backups older than 50 days
+# Refer to https://superuser.com/a/1601525
+find /backups/ -mtime +50 -exec rm {} \;
+
+echo "Finished running mhira backups prune... ${date}"

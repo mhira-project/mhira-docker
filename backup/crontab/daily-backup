@@ -1,2 +1,5 @@
-# Daily backup at midnight
+# Daily backup at midnight run backup
 0 0 * * * root /bin/backup >> /dev/null 2>&1
+
+# Daily at 00:30 prune old backups
+30 0 * * * root /bin/prune >> /dev/null 2>&1
