@@ -88,5 +88,6 @@ MONGODB_CONNECTION_STRING=mongodb://mongo:27017/questionnaireDB
 
 # uncomment the following line, and set a suitable admin password for `rstudio`
 # RSTUDIO_PASSWORD=rstudioPassword
+# RSTUDIO_USER=rstudio
 
 ########################################################################################################################
