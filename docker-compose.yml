@@ -116,8 +116,7 @@ services:
     ports:
       - '3838:3838'
     volumes:
-      - ${DATA_SAVE_PATH}/shiny/logs:/var/log/shiny-server
-      - ${DATA_SAVE_PATH}/shiny/apps:/srv/shiny-server/shiny
+      - shiny_apps:/srv/shiny-server/shiny
     networks:
       - frontend
       - backend
@@ -132,10 +131,11 @@ services:
     ports:
       - '8787:8787'
     volumes:
-      - ${DATA_SAVE_PATH}/shiny:/home/rstudio
+      - shiny_apps:/home/rstudio/shiny_apps
     environment:
       - PASSWORD=${RSTUDIO_PASSWORD}
       - USER=${RSTUDIO_USER}
+      - ROOT=FALSE
     networks:
       - frontend
       - backend
@@ -166,3 +166,4 @@ volumes:
     driver: "local"
   mongo:
     driver: "local"
+  shiny_apps:
