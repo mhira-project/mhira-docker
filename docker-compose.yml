@@ -108,7 +108,7 @@ services:
     networks:
       - backend
 
-  ### Shinny Container #########################################
+  ### Shiny Container #########################################
   shiny:
     image: rocker/shiny:4
     build: ./shiny
