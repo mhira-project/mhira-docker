@@ -135,6 +135,7 @@ services:
       - ${DATA_SAVE_PATH}/shiny:/home/rstudio
     environment:
       - PASSWORD=${RSTUDIO_PASSWORD}
+      - USER=${RSTUDIO_USER}
     networks:
       - frontend
       - backend
