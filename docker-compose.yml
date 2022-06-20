@@ -131,9 +131,8 @@ services:
     ports:
       - '8787:8787'
     volumes:
-      - shiny_apps:/home/rstudio/shiny_apps
+      - shiny_apps:/home/${RSTUDIO_USER}/shiny_apps
     environment:
-      - GROUPID=${RSTUDIO_GROUPID}
       - PASSWORD=${RSTUDIO_PASSWORD}
       - USER=${RSTUDIO_USER}
       - ROOT=FALSE
