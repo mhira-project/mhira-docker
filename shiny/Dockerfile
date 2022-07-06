@@ -9,4 +9,5 @@ RUN install2.r --error \
     tidyjson \
     jsonlite \
     htmlwidgets \
-    DT
+    DT \
+    crosstalk
