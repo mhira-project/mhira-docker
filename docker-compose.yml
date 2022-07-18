@@ -173,3 +173,4 @@ volumes:
   mongo:
     driver: "local"
   shiny_apps:
+    driver: "local"
