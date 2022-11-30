@@ -10,4 +10,5 @@ RUN install2.r --error \
     jsonlite \
     htmlwidgets \
     DT \
-    crosstalk
+    crosstalk \
+    plotly
