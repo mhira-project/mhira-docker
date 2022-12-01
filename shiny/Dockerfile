@@ -1,4 +1,4 @@
-FROM rocker/shiny-verse:4
+FROM rocker/shiny-verse:latest
 
 RUN install2.r --error \
     --deps FALSE \
@@ -10,5 +10,6 @@ RUN install2.r --error \
     jsonlite \
     htmlwidgets \
     DT \
+    lazyeval \
+    plotly \
     crosstalk \
-    plotly
