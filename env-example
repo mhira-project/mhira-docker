@@ -34,7 +34,6 @@ DOCKER_HOST_IP=10.0.75.1
 ### MHIRA ##############################################################################################################
 
 # Docker Registry container MHIRA images
-REGISTRY_HOST=public.ecr.aws/mhira
 
 # Intial password for super admin user. Default=`superadmin` if not defined
 SUPERADMIN_USERNAME=superadmin
@@ -81,14 +80,19 @@ POSTGRES_PORT=5432
 MONGODB_PORT=27017
 MONGODB_CONNECTION_STRING=mongodb://mongo:27017/questionnaireDB
 
+### SHINY ##############################################################################################################
+
+SHINY_APPS_PATH=~/shiny_apps
+
 ### RSTUDIO ############################################################################################################
 
-# To enable `rstudio` container uncomment the following line, that enables `rstudio` profile
+# To enable the `rstudio` container, uncomment the following line. This will enable the `rstudio` profile.
 # COMPOSE_PROFILES=rstudio
 
-# uncomment the following line, and set a suitable admin password for `rstudio`
- RSTUDIO_PASSWORD=rstudioPassword
- RSTUDIO_USER=mhira # needs to match the user that started docker
+# Please set a secure password. 
+RSTUDIO_PASSWORD=rstudioPassword 
 
+# The username needs to match the linux user installing MHIRA because of write permisson to SHINY_APPS_PATH 
+RSTUDIO_USER=mhira 
 
 ########################################################################################################################
