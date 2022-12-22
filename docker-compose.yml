@@ -120,7 +120,7 @@ services:
     ports:
       - '3838:3838'
     volumes:
-      - shiny_apps:/srv/shiny-server/shiny
+      - ${SHINY_APPS_PATH}:/srv/shiny-server/shiny
     networks:
       - shiny
 
@@ -134,11 +134,10 @@ services:
     ports:
       - '8787:8787'
     volumes:
-      - shiny_apps:/home/${RSTUDIO_USER}/shiny_apps
+      - ${SHINY_APPS_PATH}:/home/${RSTUDIO_USER}/shiny_apps
     environment:
       - PASSWORD=${RSTUDIO_PASSWORD}
       - USER=${RSTUDIO_USER}
-      - ROOT=FALSE
     networks:
       - rstudio
 
