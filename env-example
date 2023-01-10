@@ -95,4 +95,15 @@ RSTUDIO_PASSWORD=rstudioPassword
 # The username needs to match the linux user installing MHIRA because of write permisson to SHINY_APPS_PATH 
 RSTUDIO_USER=mhira 
 
+### MAILER #############################################################################################################
+
+MAIL_HOST=
+MAIL_PORT=
+MAIL_SECURE=
+MAIL_USER=
+MAIL_PASS=
+SENDER_MAIL=
+FRONTEND_ENCRYPTION_KEY="hfsdjfhdufhiuegewurge8365746543785643785638276423874"
+APP_URL=
+
 ########################################################################################################################
