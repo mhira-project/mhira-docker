@@ -5,7 +5,10 @@ services:
 
   mhira-frontend:
     image: mhiraproject/mhira-frontend:latest
-    build: ./mhira-frontend
+    build: 
+      context: ./mhira-frontend
+      args: 
+        email: ${FRONTEND_MAIL}
     restart: unless-stopped
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
