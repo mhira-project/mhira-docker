@@ -97,6 +97,7 @@ RSTUDIO_USER=mhira
 
 ### MAILER #############################################################################################################
 
+FRONTEND_MAIL=
 MAIL_HOST=
 MAIL_PORT=
 MAIL_SECURE=
