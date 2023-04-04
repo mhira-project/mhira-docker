@@ -1,4 +1,6 @@
-FROM mhiraproject/mhira-backend:latest
+ARG version
+
+FROM mhiraproject/mhira-backend:$version
 
 WORKDIR /app
 

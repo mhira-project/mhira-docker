@@ -1,4 +1,6 @@
-FROM mhiraproject/mhira-frontend:latest
+ARG version
+
+FROM mhiraproject/mhira-frontend:$version
 
 WORKDIR /usr/share/nginx/html
 

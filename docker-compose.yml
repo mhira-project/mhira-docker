@@ -9,6 +9,7 @@ services:
       context: ./mhira-frontend
       args: 
         email: ${FRONTEND_MAIL}
+        version: ${APP_VERSION}
     restart: unless-stopped
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
@@ -20,7 +21,10 @@ services:
 
   mhira-backend:
     image: mhiraproject/mhira-backend:latest
-    build: ./mhira-backend
+    build: 
+      context: ./mhira-backend
+      args:
+        version: ${APP_VERSION}
     restart: unless-stopped
     extra_hosts:
       - "dockerhost:${DOCKER_HOST_IP}"
