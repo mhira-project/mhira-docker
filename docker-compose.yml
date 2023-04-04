@@ -4,7 +4,6 @@ services:
   ### MHIRA Frontend Container ###########################
 
   mhira-frontend:
-    image: mhiraproject/mhira-frontend:latest
     build: 
       context: ./mhira-frontend
       args: 
@@ -20,7 +19,6 @@ services:
   ### MHIRA Backend Container ###########################
 
   mhira-backend:
-    image: mhiraproject/mhira-backend:latest
     build: 
       context: ./mhira-backend
       args:
