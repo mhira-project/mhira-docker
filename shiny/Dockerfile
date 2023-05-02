@@ -9,6 +9,7 @@ RUN install2.r --error \
     tidyjson \
     jsonlite \
     htmlwidgets \
+    htmltools \
     DT \
     lazyeval \
     plotly \
