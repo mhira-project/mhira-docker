@@ -1,6 +1,13 @@
 #!/bin/sh
 
 date=$(date '+%Y-%m-%dT%T')
+mkdir -p /backups/postgres
+mkdir -p /backups/mongo
+
 echo "Running mhira backup... ${date}"
-tar -czvf "/backups/mhira-data-${date}.tar.gz" /data >> /dev/null 2>&1
+
+pg_dump -h mhira-docker-postgres-1 -U $POSTGRES_USER -d $POSTGRES_DB > /backups/postgres/mhira-data-${date}.sql
+
+mongodump --host mhira-docker-mongo-1 --archive > /backups/mongo/mhira-data-${date}.dump
+
 echo "Finished running mhira backup... ${date}"

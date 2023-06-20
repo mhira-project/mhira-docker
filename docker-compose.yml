@@ -104,6 +104,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     networks:
       - backend
+      - backup-network
 
   ### MongoDB Container #######################################
 
@@ -114,6 +115,7 @@ services:
       - ${DATA_SAVE_PATH}/mongo:/data/db
     networks:
       - backend
+      - backup-network
 
   ### Redis Container #########################################
 
@@ -158,10 +160,20 @@ services:
   backup:
     build:
       context: ./backup
+    depends_on:
+      - postgres
+      - mongo
     volumes:
       - ${DATA_SAVE_PATH}:/data
       - ${DATA_BACKUP_PATH}:/backups
       - ${DATA_BACKUP_LOG_PATH}:/var/log/
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - PGPASSWORD=${POSTGRES_PASSWORD}
+      - MONGODB_CONNECTION_STRING=${MONGODB_CONNECTION_STRING}
+    networks:
+      - backup-network
 
 ### Networks Setup ############################################
 
@@ -173,6 +185,8 @@ networks:
   shiny:
     driver: "bridge"
   rstudio:
+    driver: "bridge"
+  backup-network:
     driver: "bridge"
 
 ### Volumes Setup #############################################
