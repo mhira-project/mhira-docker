@@ -7,7 +7,7 @@ get_archive() {
     selected_archive=""
     for archive in $1; do
         if [ $i -eq $2 ]; then
-            selected_archive=$archive
+            selected_archive=$(basename "$archive")
             break
         fi
         i=$((i+1))
@@ -16,37 +16,34 @@ get_archive() {
     echo "$selected_archive"
 }
 
-restore() {
-    archives=$2
-    valid_selection=false
+postgres_archive="/backups/postgres"
+mongo_archive="/backups/mongo"
+valid_selection=false
 
-    i=1
-    for archive in $archives; do
-        echo "$i) $archive"
-        i=$((i+1))
-    done
+i=1
+for archive in $postgres_archive/*; do
+    file=$(basename "$archive")
+    echo "$i) $file"
+    i=$((i+1))
+done
 
-    while true; do
-        read -p "Enter the index of the $1 archive you want to restore: " selected_index
+while true; do
+    read -p "Enter the index of the archive you want to restore: " selected_index
 
-        selected_archive=$(get_archive "$archives" "$selected_index")
+    selected_file=$(get_archive "$postgres_archive/*" "$selected_index")
 
-        if [ -z "$selected_archive" ]; then
-            echo "Invalid selection."
-        else
-            break
-        fi
-    done
-
-    if [ "$1" == "PostgreSQL" ]; then
-        psql -h mhira-docker-postgres-1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f "$selected_archive"
-    elif [ "$1" == "MongoDB" ]; then
-        mongorestore --host mhira-docker-mongo-1 --archive="$selected_archive"
+    if [ -z "$selected_file" ]; then
+        echo "Invalid selection."
+    else
+        break
     fi
+done
 
-    echo "Finished running mhira $1 data restore!"
-}
+if [ -f "${mongo_archive}/${selected_file}" ]; then
+    psql -h mhira-docker-postgres-1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f "${postgres_archive}/${selected_file}"
+    mongorestore --host mhira-docker-mongo-1 --drop --archive="${mongo_archive}/${selected_file}"
+else
+    echo "Mongo file does not exist!"
+fi
 
-restore "PostgreSQL" "/backups/postgres/*"
-
-restore "MongoDB" "/backups/mongo/*"
+echo "Finished running mhira data restore!"
