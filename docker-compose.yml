@@ -131,7 +131,7 @@ services:
   shiny:
     image: rocker/shiny:4
     build: ./shiny
-    restart: always
+    restart: unless-stopped
     ports:
       - '3838:3838'
     volumes:
@@ -145,7 +145,7 @@ services:
       - rstudio
     image: rocker/tidyverse:4
     build: ./rstudio
-    restart: always
+    restart: unless-stopped
     ports:
       - '8787:8787'
     volumes:
@@ -160,6 +160,7 @@ services:
   backup:
     build:
       context: ./backup
+    restart: unless-stopped
     depends_on:
       - postgres
       - mongo
