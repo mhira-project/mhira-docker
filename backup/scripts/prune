@@ -1,11 +1,48 @@
 #!/bin/sh
+#
+# Deletes backups older than 30 days, except the newest complete ones
+# (present and not empty in both folders), which are kept whatever their
+# age. A broken backup can therefore never leave the installation with no
+# usable backup, and a full backup disk still gets space back every night,
+# so the backups can resume on their own.
 
-date=$(date '+%Y-%m-%dT%T')
-echo "Running mhira backups prune... ${date}"
+set -u
 
-# Deletes all backups older than 30 days
-# Refer to https://superuser.com/a/1601525
-find /backups/postgres/ -mtime +30 -exec rm {} \;
-find /backups/mongo/ -mtime +30 -exec rm {} \;
+postgres_dir=/backups/postgres
+mongo_dir=/backups/mongo
+keep_newest=3
 
-echo "Finished running mhira backups prune... ${date}"
+log() {
+    echo "$(date '+%Y-%m-%dT%T') $*"
+}
+
+log "Running mhira backups prune..."
+
+status=0
+if ! problem=$(/bin/healthcheck); then
+    log "ERROR: ${problem}. Check the backup." \
+        "The newest ${keep_newest} complete backups are kept whatever their age."
+    status=1
+fi
+
+# The file names carry the timestamp, so sorting by name sorts by age.
+kept=""
+count=0
+for name in $(cd "$postgres_dir" 2>/dev/null && ls -r mhira-data-*.dump 2>/dev/null); do
+    [ "$count" -lt "$keep_newest" ] || break
+    if [ -s "${postgres_dir}/${name}" ] && [ -s "${mongo_dir}/${name}" ]; then
+        kept="${kept} ${name}"
+        count=$((count+1))
+    fi
+done
+
+deleted=0
+for path in $(find "$postgres_dir" "$mongo_dir" -type f -mtime +30 2>/dev/null); do
+    case " ${kept} " in
+        *" $(basename "$path") "*) continue ;;
+    esac
+    rm -f "$path" && deleted=$((deleted+1))
+done
+
+log "Finished mhira backups prune: ${deleted} files deleted"
+exit "$status"

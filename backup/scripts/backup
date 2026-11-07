@@ -1,14 +1,70 @@
 #!/bin/sh
+#
+# Dumps Postgres and Mongo into /backups. Each dump is written to a hidden
+# ".partial" file first and only gets its final name when both dumps have
+# succeeded and are not empty. A failed run therefore leaves no file behind
+# and exits with an error, which cron writes to /var/log/cron.log. It also
+# leaves /backups/.last-backup-failed, which makes the container unhealthy
+# (see healthcheck) until a later run succeeds.
+#
+# The databases are addressed by their compose service names, which resolve
+# on the backup network whatever the compose project is called.
 
-date=$(date '+%Y-%m-%dT%T')
-filename="mhira-data-${date}.dump"
-mkdir -p /backups/postgres
-mkdir -p /backups/mongo
+set -u
 
-echo "Running mhira backup... ${date}"
+filename="mhira-data-$(date '+%Y-%m-%dT%T').dump"
+postgres_dir=/backups/postgres
+mongo_dir=/backups/mongo
+postgres_tmp="${postgres_dir}/.${filename}.partial"
+mongo_tmp="${mongo_dir}/.${filename}.partial"
+mongo_log="/tmp/mongodump.$$.log"
+failed_marker=/backups/.last-backup-failed
 
-pg_dump --clean -h mhira-docker-postgres-1 -U $POSTGRES_USER -d $POSTGRES_DB > /backups/postgres/${filename}
+log() {
+    echo "$(date '+%Y-%m-%dT%T') $*"
+}
 
-mongodump --host mhira-docker-mongo-1 --archive > /backups/mongo/${filename}
+fail() {
+    log "ERROR: $*"
+    log "ERROR: mhira backup FAILED, no backup was written"
+    echo "$(date '+%Y-%m-%dT%T') $*" > "$failed_marker" 2>/dev/null
+    exit 1
+}
 
-echo "Finished running mhira backup... ${date}"
+trap 'rm -f "$postgres_tmp" "$mongo_tmp" "$mongo_log"' EXIT
+
+log "Running mhira backup..."
+
+[ -n "${POSTGRES_USER:-}" ] || fail "POSTGRES_USER is not set"
+[ -n "${POSTGRES_DB:-}" ] || fail "POSTGRES_DB is not set"
+
+mkdir -p "$postgres_dir" "$mongo_dir" || fail "cannot create the backup folders"
+
+# A run that was killed (container stopped, host rebooted) cannot clean up
+# after itself, so the next run does it.
+rm -f "$postgres_dir"/.mhira-data-*.partial "$mongo_dir"/.mhira-data-*.partial
+
+pg_dump --clean -h postgres -U "$POSTGRES_USER" -d "$POSTGRES_DB" > "$postgres_tmp" \
+    || fail "pg_dump failed"
+[ -s "$postgres_tmp" ] || fail "the Postgres dump is empty"
+
+# mongodump reports its progress on stderr. It is only worth logging when
+# the dump fails.
+if ! mongodump --host mongo --archive > "$mongo_tmp" 2> "$mongo_log"; then
+    cat "$mongo_log"
+    fail "mongodump failed"
+fi
+[ -s "$mongo_tmp" ] || fail "the Mongo dump is empty"
+
+mv "$postgres_tmp" "${postgres_dir}/${filename}" \
+    || fail "cannot move the Postgres dump into place"
+if ! mv "$mongo_tmp" "${mongo_dir}/${filename}"; then
+    rm -f "${postgres_dir}/${filename}"
+    fail "cannot move the Mongo dump into place"
+fi
+
+rm -f "$failed_marker"
+
+log "Finished mhira backup ${filename}:" \
+    "postgres $(wc -c < "${postgres_dir}/${filename}") bytes," \
+    "mongo $(wc -c < "${mongo_dir}/${filename}") bytes"

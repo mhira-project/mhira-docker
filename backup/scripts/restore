@@ -1,49 +1,75 @@
 #!/bin/sh
-
-echo "Running mhira data restore..."
-
-get_archive() {
-    i=1
-    selected_archive=""
-    for archive in $1; do
-        if [ $i -eq $2 ]; then
-            selected_archive=$(basename "$archive")
-            break
-        fi
-        i=$((i+1))
-    done
-
-    echo "$selected_archive"
-}
+#
+# Restores one backup into Postgres and Mongo. Only complete backups are
+# offered: the file must exist and not be empty in both folders.
 
 postgres_archive="/backups/postgres"
 mongo_archive="/backups/mongo"
-valid_selection=false
 
-i=1
-for archive in $postgres_archive/*; do
+echo "Running mhira data restore..."
+
+# The complete backups become the positional parameters $1, $2, ...
+set --
+skipped=0
+for archive in "$postgres_archive"/*; do
+    [ -e "$archive" ] || continue
     file=$(basename "$archive")
-    echo "$i) $file"
-    i=$((i+1))
-done
-
-while true; do
-    read -p "Enter the index of the archive you want to restore: " selected_index
-
-    selected_file=$(get_archive "$postgres_archive/*" "$selected_index")
-
-    if [ -z "$selected_file" ]; then
-        echo "Invalid selection."
+    if [ -s "$archive" ] && [ -s "${mongo_archive}/${file}" ]; then
+        set -- "$@" "$file"
     else
-        break
+        skipped=$((skipped+1))
     fi
 done
 
-if [ -f "${mongo_archive}/${selected_file}" ]; then
-    psql -h mhira-docker-postgres-1 -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f "${postgres_archive}/${selected_file}"
-    mongorestore --host mhira-docker-mongo-1 --drop --archive="${mongo_archive}/${selected_file}"
-else
-    echo "Mongo file does not exist!"
+if [ $# -eq 0 ]; then
+    echo "ERROR: no complete backup found in ${postgres_archive} and ${mongo_archive}, nothing was restored."
+    exit 1
+fi
+
+i=1
+for file in "$@"; do
+    echo "$i) $file"
+    i=$((i+1))
+done
+if [ "$skipped" -gt 0 ]; then
+    echo "(${skipped} backups are not listed because they are empty or have no Mongo file)"
+fi
+
+while true; do
+    printf "Enter the index of the archive you want to restore: "
+    if ! read -r selected_index; then
+        echo
+        echo "ERROR: no selection was made, nothing was restored."
+        exit 1
+    fi
+
+    case "$selected_index" in
+        ''|0*|*[!0-9]*) echo "Invalid selection."; continue ;;
+    esac
+    if [ "$selected_index" -le $# ]; then
+        break
+    fi
+    echo "Invalid selection."
+done
+
+shift $((selected_index - 1))
+selected_file=$1
+
+# psql exits with 0 when single statements fail, which is expected here: the
+# dump drops every object first, and in an empty database there is nothing
+# to drop. It exits with an error when it cannot connect or cannot read the
+# file, and then Mongo must be left alone.
+if ! psql -h postgres -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f "${postgres_archive}/${selected_file}"; then
+    echo "ERROR: the Postgres restore failed, see the message above." \
+        "Mongo was not touched. The restore is NOT complete."
+    exit 1
+fi
+
+if ! mongorestore --host mongo --drop --archive="${mongo_archive}/${selected_file}"; then
+    echo "ERROR: Postgres was restored, but the Mongo restore failed, see the message above." \
+        "The two databases are now from different points in time." \
+        "Fix the problem and restore ${selected_file} again."
+    exit 1
 fi
 
 echo "Finished running mhira data restore!"

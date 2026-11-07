@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# Tells whether the backups are working. Exits with 1 and prints the reason
+# when the last backup run failed, or when there are backups but none from
+# the last two days that is not empty (cron not running, for example).
+# A new installation with no backup at all yet is healthy.
+#
+# Docker runs this as the container's HEALTHCHECK, so a broken backup shows
+# as "unhealthy" in `docker ps`. prune uses it for its warning.
+
+failed_marker=/backups/.last-backup-failed
+
+if [ -f "$failed_marker" ]; then
+    echo "the last backup failed: $(cat "$failed_marker")"
+    exit 1
+fi
+
+for dir in /backups/postgres /backups/mongo; do
+    # No backup at all yet: nothing to judge.
+    [ -n "$(find "$dir" -type f -name 'mhira-data-*.dump' 2>/dev/null | head -n 1)" ] || continue
+
+    if [ -z "$(find "$dir" -type f -name 'mhira-data-*.dump' -size +0c -mtime -2 2>/dev/null | head -n 1)" ]; then
+        echo "no backup from the last two days in ${dir} that is not empty"
+        exit 1
+    fi
+done
+
+echo "backups are working"
