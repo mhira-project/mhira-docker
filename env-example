@@ -6,7 +6,7 @@
 
 # The MHIRA version to run: the tag of the backend and frontend images,
 # for example 2.0.0. Always name a version; do not use `latest`.
-APP_VERSION=
+APP_VERSION=2.0.0
 
 ### Data Path ##########################################################################################################
 # Choose storage path on your machine. For all storage systems.
