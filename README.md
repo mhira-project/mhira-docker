@@ -25,9 +25,9 @@ Edit `.env` before the first start:
   the example values with your own (`openssl rand -base64 32` prints a
   random one).
 - `MAIL_HOST`, `MAIL_PORT`, `MAIL_SECURE` (`true` or `false`), `MAIL_USER`,
-  `MAIL_PASS` and `SENDER_MAIL`: your mail server. The backend does not
-  start while one of them is empty, also when MHIRA is not meant to send
-  mail; fill in placeholders in that case.
+  `MAIL_PASS` and `SENDER_MAIL`: your mail server, for assessment mails.
+  The example values are placeholders that let MHIRA start without
+  sending mail; none of them may be empty.
 - `APP_URL`: the address users open, for example `https://mhira.example.org`.
   It is used for the links in assessment mails.
 - `SHINY_APPS_PATH`: the folder that holds the report apps. Create it

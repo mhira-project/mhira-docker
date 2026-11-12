@@ -1,4 +1,5 @@
-FROM alpine:latest
+# Pinned, so a rebuild keeps the same pg_dump and mongodump.
+FROM alpine:3.24
 
 RUN apk update && apk add --no-cache dpkg wget postgresql-client mongodb-tools busybox
 

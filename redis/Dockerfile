@@ -1,4 +1,5 @@
-FROM redis:latest
+# The major is pinned, so a rebuild never moves to a new major by itself.
+FROM redis:8
 
 ## For security settings uncomment, make the dir, copy conf, and also start with the conf, to use it
 #RUN mkdir -p /usr/local/etc/redis

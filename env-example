@@ -104,12 +104,15 @@ RSTUDIO_USER=mhira
 ### MAILER #############################################################################################################
 
 FRONTEND_MAIL=false
-MAIL_HOST=
-MAIL_PORT=
-MAIL_SECURE=
-MAIL_USER=
-MAIL_PASS=
-SENDER_MAIL=
+# Your mail server. The backend does not start while one of these is
+# empty, so the values below are placeholders that let MHIRA start without
+# sending mail; replace them to send assessment mails.
+MAIL_HOST=localhost
+MAIL_PORT=25
+MAIL_SECURE=false
+MAIL_USER=mhira
+MAIL_PASS=changeMe
+SENDER_MAIL=mhira@localhost
 FRONTEND_ENCRYPTION_KEY="hfsdjfhdufhiuegewurge8365746543785643785638276423874"
 APP_URL=
 
